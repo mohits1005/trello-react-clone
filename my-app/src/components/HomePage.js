@@ -2,13 +2,6 @@ import React from 'react';
 import ContentBody from './ContentBody';
 import { boardData } from './SampleData';
 class SelectBoard extends React.Component{
-    addBoard = () => {
-        var { data } = this.props;
-        var board = boardData;
-        board.id = data.length + 1;
-        board.name = 'Sample board';
-        this.props.addBoard(board);
-    }
     render(){
         var {data} = this.props;
         const boardList = data.map((board) =>
@@ -22,7 +15,7 @@ class SelectBoard extends React.Component{
                 <div>
                     {boardList}
                 </div>
-                <div onClick onClick={this.addBoard}>
+                <div onClick onClick={this.props.addBoard}>
                     Add Board
                 </div>
             </div>
@@ -70,10 +63,14 @@ class HomePage extends React.Component {
         }
         return <div></div>
     }
-    addBoard = (board) => {
+    addBoard = () => {
         var { data } = this.state;
-        data.push(board);
-        this.setState({ data });
+        var board = {};
+        board.lanes = boardData.lanes;
+        board.id = data.length > 0 ? data[data.length - 1]['id'] + 1 : 0;
+        board.name = 'Sample board';
+        var new_data = [...data,board];
+        this.setState({ data: new_data})
     }
     render() {
         var { data, activeBoardId} = this.state;
