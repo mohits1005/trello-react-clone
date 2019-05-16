@@ -1,5 +1,7 @@
 import React from 'react';
 import Board from 'react-trello'
+import './ContentBody.css';
+
 class ContentBody extends React.Component
 {   
     onDataChange = (data) => {
@@ -26,6 +28,7 @@ class ContentBody extends React.Component
         var {data} = this.props;
         return (
             <div>
+                <div className='board-title'>{data.name+' '+'('+data.id+')'}</div>
                 <Board data={data}
                     id="EditableBoard1"
                     draggable

@@ -1,23 +1,25 @@
 import React from 'react';
 import ContentBody from './ContentBody';
 import { boardData } from './SampleData';
+import './HomePage.css';
+
 class SelectBoard extends React.Component{
     render(){
         var {data} = this.props;
         const boardList = data.map((board) =>
-            <div key={board.id} onClick={() => this.props.setActiveBoard(board.id)}>
-                {board.id}
-                {board.name}
+            <div className="board-wrap" key={board.id} onClick={() => this.props.setActiveBoard(board.id)}>
+                {board.name+' '}({board.id})
             </div>
         );
         return (
             <div>
-                <div>
+                <div className='board-outer-wrap'>
+                    <div className='board-wrap board-add' onClick={this.props.addBoard}>
+                        +
+                    </div>
                     {boardList}
                 </div>
-                <div onClick onClick={this.props.addBoard}>
-                    Add Board
-                </div>
+                
             </div>
         )
     }
@@ -67,7 +69,7 @@ class HomePage extends React.Component {
         var { data } = this.state;
         var board = {};
         board.lanes = boardData.lanes;
-        board.id = data.length > 0 ? data[data.length - 1]['id'] + 1 : 0;
+        board.id = data.length > 0 ? data.length + 1 : 0;
         board.name = 'Sample board';
         var new_data = [...data,board];
         this.setState({ data: new_data})

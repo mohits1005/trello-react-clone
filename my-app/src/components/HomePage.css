@@ -1,0 +1,23 @@
+.board-wrap{
+    background-color: hsla(0,0%,100%,.3);
+    display: inline-block;
+    border-radius: 3px;
+    padding: 5px;
+    color: #fff;
+    font-weight: 900;
+    font-size: 14px;
+    cursor: pointer;
+    margin-right: 10px;
+    margin-bottom: 5px;
+}
+.board-outer-wrap{
+    padding: 8px;
+}
+.board-add{
+    font-size: 20px;
+    padding: 0px;
+    padding-left: 6px;
+    padding-right: 6px;
+    padding-bottom: 5px;
+    font-weight: 400;
+}
