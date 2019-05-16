@@ -5,3 +5,50 @@
     font-weight: 800;
     font-size: 20px;
 }
+.comments-wrap{
+    padding: 8px 12px;
+    background-color: #fff;
+    border-radius: 3px;
+    box-shadow: 0 1px 2px -1px rgba(9,30,66,.25), 0 0 0 1px rgba(9,30,66,.08);
+    box-sizing: border-box;
+    clear: both;
+    display: inline-block;
+    margin: 4px 2px 4px 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+}
+.comments-hr{
+    border: 0.5px solid #d5d9e0;
+}
+.add-comment{
+    padding: 5px;
+    width: 80%;
+    font-size: 16px;
+    outline: none;
+    box-shadow: none;
+    margin-top: 1em;
+}
+.comments-text{
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+.comment-user{
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 2px;
+}
+.add-btn{
+    margin-left: 10px;
+    font-size: 14px;
+    padding: 8px;
+    cursor: pointer;
+    border: none;
+    box-shadow: none;
+    outline: none;
+    color: #172b4d;
+    font-weight: 400;
+    background-color: rgba(9,30,66,.08);
+    border-radius: 3px;
+}

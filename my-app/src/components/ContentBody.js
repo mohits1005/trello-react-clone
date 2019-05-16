@@ -23,6 +23,7 @@ const customStyles = {
         borderRight: '4px solid white',
         borderTop: '4px solid white',
         borderRadius: '8px',
+        background:'#f4f5f7',
         WebkitBoxShadow:
             '0 24px 38px 3px rgba(0, 0, 0, 0.14), 0 9px 46px 8px rgba(0, 0, 0, 0.12), 0 11px 15px -7px rgba(0, 0, 0, 0.2)',
         boxShadow:
@@ -60,16 +61,22 @@ class TaskComment extends React.Component
         var comments = this.getTaskComments(this.props);
         // console.log(comments);
         var commentsWrap = comments.map((comment) =>
-            <div className="" key={comment.id}>
+            <div key={comment.id}>
+            <hr className='comments-hr' />
+            <div className='comment-user'>
+                Anonymous User
+            </div>
+            <div className="comments-wrap" >
                 {comment.text}
+                </div>
             </div>
         );
         return(
             <div>
-                <div>
+                <div className='comments-text'>
                     Comments
                 </div>
-                <hr />
+                
                 {commentsWrap}
                 <AddComment {...this.props}/>
             </div>
@@ -85,13 +92,15 @@ class AddComment extends React.Component{
     }
     handleSubmit = () => {
         var { commentVal } = this.state;
-        var { data, activeBoardId, activeTask } = this.props;
-        var cardId = activeTask.cardId;
-        var laneId = activeTask.laneId;
-        var boardId = activeBoardId;
-        var text = commentVal;
-        this.props.addComment({ cardId, laneId, boardId, text });
-        this.setState({ commentVal: ''});
+        if(commentVal.trim() !== ''){
+            var { data, activeBoardId, activeTask } = this.props;
+            var cardId = activeTask.cardId;
+            var laneId = activeTask.laneId;
+            var boardId = activeBoardId;
+            var text = commentVal;
+            this.props.addComment({ cardId, laneId, boardId, text });
+            this.setState({ commentVal: ''});
+        }
     }
     render(){
         var { commentVal } = this.state;
