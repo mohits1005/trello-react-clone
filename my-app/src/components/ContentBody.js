@@ -58,7 +58,7 @@ class TaskComment extends React.Component
     }
     render(){
         var comments = this.getTaskComments(this.props);
-        console.log(comments);
+        // console.log(comments);
         var commentsWrap = comments.map((comment) =>
             <div className="" key={comment.id}>
                 {comment.text}
@@ -71,6 +71,36 @@ class TaskComment extends React.Component
                 </div>
                 <hr />
                 {commentsWrap}
+                <AddComment {...this.props}/>
+            </div>
+        )
+    }
+}
+class AddComment extends React.Component{
+    state = {
+        commentVal: ''
+    }
+    handleChange = (event) => {
+        this.setState({ commentVal: event.target.value })
+    }
+    handleSubmit = () => {
+        var { commentVal } = this.state;
+        var { data, activeBoardId, activeTask } = this.props;
+        var cardId = activeTask.cardId;
+        var laneId = activeTask.laneId;
+        var boardId = activeBoardId;
+        var text = commentVal;
+        this.props.addComment({ cardId, laneId, boardId, text });
+        this.setState({ commentVal: ''});
+    }
+    render(){
+        var { commentVal } = this.state;
+        return (
+            <div>
+                <input type='text' className='add-comment' value={commentVal} onChange={this.handleChange}/>
+                <button type='button' className='add-btn' onClick={this.handleSubmit}>
+                    Add
+                </button>
             </div>
         )
     }

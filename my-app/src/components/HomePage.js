@@ -58,10 +58,29 @@ class HomePage extends React.Component {
     setActiveBoard = (id) => {
         this.setState({ activeBoardId: id });
     }
+    addComment = (new_data) => {
+        var { cardId, laneId, boardId, text } = new_data;
+        var { data } = this.state;
+        for (var k = 0; k < data.length; k++) {
+            if (data[k]['id'] === boardId){
+                for (var i = 0; i < data[k]['lanes'].length; i++) {
+                    if (data[k]['lanes'][i]['id'] === laneId) {
+                        for (var j = 0; j < data[k]['lanes'][i]['cards'].length; j++) {
+                            if (data[k]['lanes'][i]['cards'][j]['id'] === cardId) {
+                                var length = data[k]['lanes'][i]['cards'][j]['comments'].length;
+                                data[k]['lanes'][i]['cards'][j]['comments'].push({ id: (length+1), text: text})
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        this.setState({ data: data });
+    }
     renderActiveBoard = (data, activeBoardId) => {
         var arr = data.filter(board => board.id === activeBoardId);
         if(arr.length > 0){
-            return <ContentBody activeBoardId={activeBoardId} data={arr[0]} />
+            return <ContentBody activeBoardId={activeBoardId} data={arr[0]} addComment={this.addComment} />
         }
         return <div></div>
     }
