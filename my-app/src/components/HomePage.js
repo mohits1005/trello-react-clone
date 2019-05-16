@@ -40,8 +40,8 @@ class HomePage extends React.Component {
                         title: 'Planned Tasks',
                         label: '2/2',
                         cards: [
-                            { id: 'Card1', title: 'Write Blog', description: 'Can AI make memes', label: '30 mins' },
-                            { id: 'Card2', title: 'Pay Rent', description: 'Transfer via NEFT', label: '5 mins', metadata: { sha: 'be312a1' } }
+                            { id: 'Card1', title: 'Write Blog', description: 'Can AI make memes', label: '30 mins', comments: [{ 'id': 1, 'text': 'voila' }, { 'id': 2, 'text': 'Task is very big' }] },
+                            { id: 'Card2', title: 'Pay Rent', description: 'Transfer via NEFT', label: '5 mins', metadata: { sha: 'be312a1' }, comments: [] }
                         ]
                     },
                     {
@@ -61,7 +61,7 @@ class HomePage extends React.Component {
     renderActiveBoard = (data, activeBoardId) => {
         var arr = data.filter(board => board.id === activeBoardId);
         if(arr.length > 0){
-            return <ContentBody data={arr[0]} />
+            return <ContentBody activeBoardId={activeBoardId} data={arr[0]} />
         }
         return <div></div>
     }
