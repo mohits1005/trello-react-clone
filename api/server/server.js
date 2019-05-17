@@ -1,5 +1,6 @@
 require('./config/config.js')
 const express = require('express');
+const _ = require('lodash')
 
 var { mongoose } = require('./db/mongoose');
 var { getTrackData } = require('./controllers/track');
@@ -43,6 +44,24 @@ app.get('/boards', (req, res) => {
     }, (e) => {
         res.status(400).send(e);
     });
+});
+
+//update boards
+app.patch('/boards/:id', (req, res) => {
+    var id = req.params.id;
+    var body = _.pick(req.body, ['name','lanes'])
+    BoardModule.findOneAndUpdate({
+        id: id
+    }, {
+            $set: body
+        }, {
+            new: true
+        }).then((board) => {
+            if (!board) {
+                return res.status(404).send()
+            }
+            res.send({ board });
+        }).catch((e) => res.status(400).send());
 });
 
 app.post('/program/fetch/', (req, res) => {
