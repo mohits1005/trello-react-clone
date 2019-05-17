@@ -36,6 +36,15 @@ app.post('/boards', (req, res) => {
     });
 });
 
+//fetch boards
+app.get('/boards', (req, res) => {
+    BoardModule.find({'status':1}).then((boards) => {
+        res.send({ boards });
+    }, (e) => {
+        res.status(400).send(e);
+    });
+});
+
 app.post('/program/fetch/', (req, res) => {
     var program = req.body.program_id;
     getProgramData(program).then((data) => {
