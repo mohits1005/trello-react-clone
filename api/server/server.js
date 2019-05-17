@@ -64,6 +64,24 @@ app.patch('/boards/:id', (req, res) => {
         }).catch((e) => res.status(400).send());
 });
 
+//delete boards
+app.post('/boards/del/:id', (req, res) => {
+    var id = req.params.id;
+    var body = {status: 0};
+    BoardModule.findOneAndUpdate({
+        id: id
+    }, {
+            $set: body
+        }, {
+            new: true
+        }).then((board) => {
+            if (!board) {
+                return res.status(404).send()
+            }
+            res.send({ board });
+        }).catch((e) => res.status(400).send());
+});
+
 app.post('/program/fetch/', (req, res) => {
     var program = req.body.program_id;
     getProgramData(program).then((data) => {
