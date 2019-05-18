@@ -30,30 +30,23 @@ class HomePage extends React.Component {
         activeBoardId: -1
     }
     componentDidMount(){
-        var data = [
-            {
-                id: 1,
-                name: 'Sample board',
-                lanes: [
-                    {
-                        id: 'lane1',
-                        title: 'Planned Tasks',
-                        label: '2/2',
-                        cards: [
-                            { id: 'Card1', title: 'Write Blog', description: 'Can AI make memes', label: '30 mins', comments: [{ 'id': 1, 'text': 'voila' }, { 'id': 2, 'text': 'Task is very big' }] },
-                            { id: 'Card2', title: 'Pay Rent', description: 'Transfer via NEFT', label: '5 mins', metadata: { sha: 'be312a1' }, comments: [] }
-                        ]
-                    },
-                    {
-                        id: 'lane2',
-                        title: 'Completed',
-                        label: '0/0',
-                        cards: []
-                    }
-                ]
-            }
-        ];
-        this.setState({data});
+        let url = 'http://ec2-13-233-138-163.ap-south-1.compute.amazonaws.com/boards';
+        let headers = {
+            'Accept': 'application/json'
+        }
+        let fetchData = {
+            method: 'GET',
+            headers: headers
+        }
+        fetch(url, fetchData)
+            .then(response => response.json())
+            .then((data) => {
+                // console.log(data)
+                var activeBoardId = -1;
+                if (data.boards.length > 0)
+                    activeBoardId = data.boards[0]['id'];
+                this.setState({ data: data.boards, activeBoardId: activeBoardId });
+            });
     }
     setActiveBoard = (id) => {
         this.setState({ activeBoardId: id });
