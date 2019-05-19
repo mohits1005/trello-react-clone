@@ -51,12 +51,12 @@ app.get('/boards', (req, res) => {
 app.post('/boards/:id', (req, res) => {
     var id = req.params.id;
     var body = { lanes: req.body.lanes}
-    BoardModule.findOneAndUpdate({
+    BoardModule.update({
         id: id
     }, {
             $set: body
         }, {
-            new: true
+            multi: true 
         }).then((board) => {
             if (!board) {
                 return res.status(404).send()
@@ -69,12 +69,12 @@ app.post('/boards/:id', (req, res) => {
 app.post('/boards/del/:id', (req, res) => {
     var id = req.params.id;
     var body = {status: 0};
-    BoardModule.findOneAndUpdate({
+    BoardModule.update({
         id: id
     }, {
             $set: body
         }, {
-            new: true
+             multi: true 
         }).then((board) => {
             if (!board) {
                 return res.status(404).send()
