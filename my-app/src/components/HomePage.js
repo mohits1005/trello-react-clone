@@ -31,12 +31,8 @@ class HomePage extends React.Component {
     }
     componentDidMount(){
         let url = 'http://ec2-13-233-138-163.ap-south-1.compute.amazonaws.com/boards';
-        let headers = {
-            'Accept': 'application/json'
-        }
         let fetchData = {
-            method: 'GET',
-            headers: headers
+            method: 'GET'
         }
         fetch(url, fetchData)
             .then(response => response.json())
@@ -81,10 +77,29 @@ class HomePage extends React.Component {
         var { data } = this.state;
         var board = {};
         board.lanes = boardData.lanes;
-        board.id = data.length > 0 ? data.length + 1 : 0;
+        board.id = data.length > 0 ? (data[data.length-1]['id'] + 1) : 0;
         board.name = 'Sample board';
         var new_data = [...data,board];
-        this.setState({ data: new_data})
+        let url = 'http://ec2-13-233-138-163.ap-south-1.compute.amazonaws.com/boards';
+        let dataBody = { board }
+        let headers = {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        }
+        let fetchData = {
+            method: 'POST',
+            body: JSON.stringify(dataBody),
+            headers: headers
+        }
+        fetch(url, fetchData)
+            .then(response => response.json())
+            .then(data => {
+                console.log(data)
+                this.setState({ data: new_data, activeBoardId: board.id })
+            })
+            .catch(error => {
+                console.log(error)
+            })
     }
     render() {
         var { data, activeBoardId} = this.state;

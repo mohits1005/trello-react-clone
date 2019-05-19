@@ -9,25 +9,26 @@ var { generateToken, getTokenParams } = require('./controllers/auth');
 var { authenticate } = require('./middleware/authenticate');
 var { s3Upload, generateCfUrl } = require('./controllers/utils');
 var { BoardModule } = require('./models/board');
-
 var app = express();
 app.use(express.json());       // to support JSON-encoded bodies
 app.use(express.urlencoded()); // to support URL-encoded bodies
-
+app.use(function (req, res, next) {
+    res.setHeader('Access-Control-Allow-Methods', 'POST,GET,OPTIONS,PUT,DELETE');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type,Accept');
+    next();
+});
 const port = process.env.PORT;
-
 app.get('/ping', (req, res) => {
     res.send({status:1,msg:'Success'});
 });
 
 //creating board
 app.post('/boards', (req, res) => {
-    // console.log(req.body)
+    // res.send(req.body)
     var board = new BoardModule({
-        // text: req.body.text,
-        id: req.body.id,
-        name: req.body.name,
-        lanes: req.body.lanes,
+        id: req.body.board.id,
+        name: req.body.board.name,
+        lanes: req.body.board.lanes,
         status: 1
     });
     board.save().then((doc) => {
