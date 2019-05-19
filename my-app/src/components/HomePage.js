@@ -57,10 +57,40 @@ class HomePage extends React.Component {
                     if (data[k]['lanes'][i]['id'] === laneId) {
                         for (var j = 0; j < data[k]['lanes'][i]['cards'].length; j++) {
                             if (data[k]['lanes'][i]['cards'][j]['id'] === cardId) {
-                                var length = data[k]['lanes'][i]['cards'][j]['comments'].length;
-                                data[k]['lanes'][i]['cards'][j]['comments'].push({ id: (length+1), text: text})
+                                let length = 0;
+                                if (data[k]['lanes'][i]['cards'][j]['comments'] != undefined && data[k]['lanes'][i]['cards'][j]['comments'].length > 0)
+                                {
+                                    length = data[k]['lanes'][i]['cards'][j]['comments'].length;
+                                    data[k]['lanes'][i]['cards'][j]['comments'].push({ id: (length+1), text: text})
+                                }
+                                else
+                                {
+                                    data[k]['lanes'][i]['cards'][j]['comments'] = [];
+                                    data[k]['lanes'][i]['cards'][j]['comments'].push({ id: (length + 1), text: text })
+                                }
+                                let url = 'http://ec2-13-233-138-163.ap-south-1.compute.amazonaws.com/boards/' + boardId;
+                                let dataBody = { lanes: data[k]['lanes'] }
+                                let headers = {
+                                    'Content-Type': 'application/json',
+                                    'Accept': 'application/json'
+                                }
+                                let fetchData = {
+                                    method: 'POST',
+                                    body: JSON.stringify(dataBody),
+                                    headers: headers
+                                }
+                                fetch(url, fetchData)
+                                    .then(response => response.json())
+                                    .then(data => {
+                                        console.log(data)
+                                    })
+                                    .catch(error => {
+                                        console.log(error)
+                                    })
                             }
                         }
+                        
+                        
                     }
                 }
             }

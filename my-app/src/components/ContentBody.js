@@ -59,8 +59,9 @@ class TaskComment extends React.Component
     }
     render(){
         var comments = this.getTaskComments(this.props);
-        // console.log(comments);
-        var commentsWrap = comments.map((comment) =>
+        let commentsWrap;
+        if (comments != undefined && comments.length > 0)
+        commentsWrap = comments.map((comment) =>
             <div key={comment.id}>
             <hr className='comments-hr' />
             <div className='comment-user'>
