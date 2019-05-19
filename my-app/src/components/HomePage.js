@@ -132,10 +132,38 @@ class HomePage extends React.Component {
             }
         }
     }
+    deleteBoard = (activeBoardId) => {
+        var {data} = this.state;
+        var newData = data.filter((board) => board.id !== activeBoardId)
+        if (newData.length > 0){
+            var boardId = newData[0]['id'];
+            this.setState({ data: newData, activeBoardId: boardId })
+        }
+        else{
+            this.setState({ data: newData, activeBoardId: -1 })
+        }
+        let url = 'http://ec2-13-233-138-163.ap-south-1.compute.amazonaws.com/boards/del/' + activeBoardId;
+        let headers = {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        }
+        let fetchData = {
+            method: 'POST',
+            headers: headers
+        }
+        fetch(url, fetchData)
+            .then(response => response.json())
+            .then(data => {
+                // console.log(data)
+            })
+            .catch(error => {
+                console.log(error)
+            })
+    }
     renderActiveBoard = (data, activeBoardId) => {
         var arr = data.filter(board => board.id === activeBoardId);
         if(arr.length > 0){
-            return <ContentBody activeBoardId={activeBoardId} data={arr[0]} addComment={this.addComment} updateBoard={this.updateBoard}/>
+            return <ContentBody activeBoardId={activeBoardId} data={arr[0]} addComment={this.addComment} updateBoard={this.updateBoard} deleteBoard={this.deleteBoard}/>
         }
         return <div></div>
     }

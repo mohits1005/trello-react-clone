@@ -2,6 +2,8 @@ import React from 'react';
 import Board from 'react-trello'
 import './ContentBody.css';
 import Modal from 'react-modal';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTrash } from '@fortawesome/free-solid-svg-icons'
 Modal.setAppElement('#root');
 const customStyles = {
     overlay: {
@@ -151,10 +153,14 @@ class ContentBody extends React.Component
     render(){
         var { data, activeBoardId} = this.props;
         var { showModal, activeTask} = this.state;
+        const delElement = <FontAwesomeIcon icon={faTrash} onClick={() => this.props.deleteBoard(activeBoardId)}/>
         return (
             <div>
                 <TaskModal {...this.props} activeTask={activeTask} showModal={showModal} closeModal={this.closeModal}/>
                 <div className='board-title'>{data.name+' '+'('+data.id+')'}</div>
+                <span className='delElem-wrap'>
+                    {delElement}
+                </span>
                 <Board data={data}
                     id="EditableBoard1"
                     draggable
