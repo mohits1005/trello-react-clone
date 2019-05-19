@@ -48,9 +48,9 @@ app.get('/boards', (req, res) => {
 });
 
 //update boards
-app.patch('/boards/:id', (req, res) => {
+app.post('/boards/:id', (req, res) => {
     var id = req.params.id;
-    var body = _.pick(req.body, ['name','lanes'])
+    var body = { lanes: req.body.lanes}
     BoardModule.findOneAndUpdate({
         id: id
     }, {

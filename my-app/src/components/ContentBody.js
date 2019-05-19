@@ -125,7 +125,9 @@ class ContentBody extends React.Component
     }
     onDataChange = (data) => {
         // console.log('data change')
+        // console.log(this.props.activeBoardId);
         // console.log(data)
+        this.props.updateBoard(data, this.props.activeBoardId);
     }
     onCardDelete = (data) => {
         // console.log('card delete')

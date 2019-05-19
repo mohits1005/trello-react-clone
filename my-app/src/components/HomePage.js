@@ -2,6 +2,7 @@ import React from 'react';
 import ContentBody from './ContentBody';
 import { boardData } from './SampleData';
 import './HomePage.css';
+import _ from 'lodash';
 
 class SelectBoard extends React.Component{
     render(){
@@ -66,10 +67,45 @@ class HomePage extends React.Component {
         }
         this.setState({ data: data });
     }
+    updateBoard = (newData, boardId) => {
+        // this.setState({data})
+        var { data } = this.state;
+        for (var k = 0; k < data.length; k++) {
+            if (data[k]['id'] === boardId) {
+                if (_.isEqual(data[k]['lanes'], newData.lanes))
+                {}
+                else
+                {
+                    console.log(boardId)
+                    console.log(data)
+                    this.setState({ data })
+                    let url = 'http://ec2-13-233-138-163.ap-south-1.compute.amazonaws.com/boards/' + boardId;
+                    let dataBody = { lanes: newData.lanes }
+                    let headers = {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    }
+                    let fetchData = {
+                        method: 'POST',
+                        body: JSON.stringify(dataBody),
+                        headers: headers
+                    }
+                    fetch(url, fetchData)
+                        .then(response => response.json())
+                        .then(data => {
+                            console.log(data)
+                        })
+                        .catch(error => {
+                            console.log(error)
+                        })
+                }
+            }
+        }
+    }
     renderActiveBoard = (data, activeBoardId) => {
         var arr = data.filter(board => board.id === activeBoardId);
         if(arr.length > 0){
-            return <ContentBody activeBoardId={activeBoardId} data={arr[0]} addComment={this.addComment} />
+            return <ContentBody activeBoardId={activeBoardId} data={arr[0]} addComment={this.addComment} updateBoard={this.updateBoard}/>
         }
         return <div></div>
     }
@@ -94,7 +130,7 @@ class HomePage extends React.Component {
         fetch(url, fetchData)
             .then(response => response.json())
             .then(data => {
-                console.log(data)
+                // console.log(data)
                 this.setState({ data: new_data, activeBoardId: board.id })
             })
             .catch(error => {
