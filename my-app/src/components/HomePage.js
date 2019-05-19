@@ -171,7 +171,7 @@ class HomePage extends React.Component {
         var { data } = this.state;
         var board = {};
         board.lanes = boardData.lanes;
-        board.id = data.length > 0 ? (data[data.length-1]['id'] + 1) : 0;
+        board.id = data.length > 0 ? (data[data.length-1]['id'] + 1) : 1;
         board.name = 'Sample board';
         var new_data = [...data,board];
         let url = 'http://ec2-13-233-138-163.ap-south-1.compute.amazonaws.com/boards';
