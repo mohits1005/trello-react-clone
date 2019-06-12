@@ -1,4 +1,4 @@
-# happy-fox-assesment
+# trello-react-clone
 To run project locally, follow instructions
 Make sure node and npm are installed and run command -
     cd my-app
